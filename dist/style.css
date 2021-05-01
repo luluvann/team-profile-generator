@@ -86,6 +86,7 @@ main{
 
 a{
     cursor: pointer;
+    color: blue;
 }
 
 a:hover{
