@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const generateHTML = require("./src/generateHTML");
 
 /* arrays of questions */
 const initialQuestions = [
@@ -20,7 +21,7 @@ const initialQuestions = [
   },
   {
     type: "input",
-    name: "email",
+    name: "number",
     message: "What is the team manager's office number? :",
   },
   {
@@ -49,7 +50,7 @@ const internQuestions = [
   },
   {
     type: "input",
-    name: "internSchool",
+    name: "school",
     message: "What is your intern's school? :",
   },
 ];
@@ -104,64 +105,62 @@ function promptEngineer(employeesList) {
   return inquirer
     .prompt([...engineerQuestions])
     .then((engineerData) => {
-     employeesList.push(engineerData)
-     employeesList[employeesList.length - 1].type = "Engineer"
-     return employeesList
+      employeesList.push(engineerData);
+      employeesList[employeesList.length - 1].type = "Engineer";
+      return employeesList;
     })
-    .then( employeesList => promptAddNewTeamMember(employeesList));
+    .then((employeesList) => promptAddNewTeamMember(employeesList));
 }
 
 function promptIntern(employeesList) {
   return inquirer
     .prompt([...internQuestions])
     .then((internData) => {
-      employeesList.push(internData)
-      employeesList[employeesList.length - 1].type = "Intern"
+      employeesList.push(internData);
+      employeesList[employeesList.length - 1].type = "Intern";
       return employeesList;
     })
-    .then( employeesList => promptAddNewTeamMember(employeesList));
+    .then((employeesList) => promptAddNewTeamMember(employeesList));
 }
 
 function promptAddNewTeamMember(employeesList) {
   return inquirer.prompt([...newEmployee]).then((answer) => {
-    if(answer.addNewEmployee){
-     return inquirer.prompt([
-      {
-        type: "list",
-        name: "teamMemberType",
-        message: "Which type of team member would you like to add? :",
-        choices: [
-          "Intern",
-          "Engineer",
-          "I don't want to add any more team members",
-        ],
-      } 
-     ]).then(answerTypeTeamMember => {
-       if(answerTypeTeamMember.teamMemberType === "Intern"){
-         return promptIntern(employeesList)
-       } else if (answerTypeTeamMember.teamMemberType === "Engineer"){
-         return promptEngineer(employeesList)
-       }
-     })
+    if (answer.addNewEmployee) {
+      return inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "teamMemberType",
+            message: "Which type of team member would you like to add? :",
+            choices: [
+              "Intern",
+              "Engineer",
+              "I don't want to add any more team members",
+            ],
+          },
+        ])
+        .then((answerTypeTeamMember) => {
+          if (answerTypeTeamMember.teamMemberType === "Intern") {
+            return promptIntern(employeesList);
+          } else if (answerTypeTeamMember.teamMemberType === "Engineer") {
+            return promptEngineer(employeesList);
+          }
+        });
     } else {
-      console.log(employeesList)
-      return employeesList
+
+      writeToFile("output", employeesList)
     }
   });
 }
 
-
 /* initial prompt */
-init()
-.then((data) => {
-  let employeesList = []
-  employeesList.push(data)
-  employeesList[0].type = "Manager"
+init().then((data) => {
+  let employeesList = [];
+  employeesList.push(data);
+  employeesList[0].type = "Manager";
   if (data.teamMemberAdd === "Intern") {
-    promptIntern(employeesList)
+    promptIntern(employeesList);
   } else if (data.teamMemberAdd === "Engineer") {
-    promptEngineer(employeesList)
+    promptEngineer(employeesList);
   }
-})
-
-
+});
