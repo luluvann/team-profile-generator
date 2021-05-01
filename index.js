@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
+/* arrays of questions */
 const initialQuestions = [
   {
     type: "input",
@@ -84,6 +85,8 @@ const newEmployee = [
   },
 ];
 
+/* end arrays of questions */
+
 function writeToFile(fileName, data) {
   fs.writeFile(`./dist/${fileName}.html`, generateHTML(data), (err) => {
     if (err) throw err;
@@ -97,25 +100,29 @@ function init() {
   return inquirer.prompt([...initialQuestions]);
 }
 
-function promptEngineer() {
+function promptEngineer(data) {
+  let employeesList = [data]
   return inquirer
     .prompt([...engineerQuestions])
     .then((engineerData) => {
-      console.log(engineerData);
+     employeesList.push(engineerData)
+     return employeesList
     })
-    .then(promptAddNewTeamMember);
+    .then( employeesList => promptAddNewTeamMember(employeesList));
 }
 
-function promptIntern() {
+function promptIntern(data) {
+  let employeesList = [data]
   return inquirer
     .prompt([...internQuestions])
     .then((internData) => {
-      console.log(internData);
+      employeesList.push(internData)
+      return employeesList;
     })
-    .then(promptAddNewTeamMember);
+    .then( employeesList => promptAddNewTeamMember(employeesList));
 }
 
-function promptAddNewTeamMember() {
+function promptAddNewTeamMember(employeesList) {
   return inquirer.prompt([...newEmployee]).then((answer) => {
     if(answer.addNewEmployee){
      return inquirer.prompt([
@@ -131,20 +138,27 @@ function promptAddNewTeamMember() {
       } 
      ]).then(answerTypeTeamMember => {
        if(answerTypeTeamMember.teamMemberType === "Intern"){
-         promptIntern()
+         return promptIntern(employeesList)
        } else if (answerTypeTeamMember.teamMemberType === "Engineer"){
-         promptEngineer()
+         return promptEngineer(employeesList)
        }
      })
+    } else {
+      console.log(employeesList)
+      return employeesList
     }
   });
 }
 
-init().then((data) => {
-  console.log(data);
+
+/* initial prompt */
+init()
+.then((data) => {
   if (data.teamMemberAdd === "Intern") {
-    promptIntern();
+    promptIntern(data)
   } else if (data.teamMemberAdd === "Engineer") {
-    promptEngineer();
+    promptEngineer(data)
   }
-});
+})
+
+
