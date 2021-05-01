@@ -19,7 +19,7 @@ function generateHTML(data) {
     <header>
         <h2>My Team</h2>
     </header>
-    <main>
+    <main> 
     <div class="card">
         <div class="cardHeader">
             <h3>${data.name}</h3>

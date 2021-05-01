@@ -5,22 +5,22 @@ const fs = require("fs");
 const initialQuestions = [
   {
     type: "input",
-    name: "managerName",
+    name: "name",
     message: "What is the team manager's name? :",
   },
   {
     type: "input",
-    name: "managerID",
+    name: "ID",
     message: "What is the team manager's ID? :",
   },
   {
     type: "input",
-    name: "managerEmail",
+    name: "email",
     message: "What is the team manager's email? :",
   },
   {
     type: "input",
-    name: "managerEmail",
+    name: "email",
     message: "What is the team manager's office number? :",
   },
   {
@@ -38,13 +38,13 @@ const initialQuestions = [
 const internQuestions = [
   {
     type: "input",
-    name: "internName",
+    name: "name",
     message: "What is your intern's name? :",
   },
-  { type: "input", name: "internID", message: "What is your intern's ID? :" },
+  { type: "input", name: "ID", message: "What is your intern's ID? :" },
   {
     type: "input",
-    name: "internEmail",
+    name: "email",
     message: "What is your intern's email? :",
   },
   {
@@ -57,22 +57,22 @@ const internQuestions = [
 const engineerQuestions = [
   {
     type: "input",
-    name: "engineerName",
+    name: "name",
     message: "What is the engineer's name? :",
   },
   {
     type: "input",
-    name: "engineerID",
+    name: "ID",
     message: "What is the engineer's ID? :",
   },
   {
     type: "input",
-    name: "engineerEmail",
+    name: "email",
     message: "What is the engineer's email? :",
   },
   {
     type: "input",
-    name: "engineerGithub",
+    name: "github",
     message: "What is the engineer's github username? :",
   },
 ];
@@ -100,23 +100,23 @@ function init() {
   return inquirer.prompt([...initialQuestions]);
 }
 
-function promptEngineer(data) {
-  let employeesList = [data]
+function promptEngineer(employeesList) {
   return inquirer
     .prompt([...engineerQuestions])
     .then((engineerData) => {
      employeesList.push(engineerData)
+     employeesList[employeesList.length - 1].type = "Engineer"
      return employeesList
     })
     .then( employeesList => promptAddNewTeamMember(employeesList));
 }
 
-function promptIntern(data) {
-  let employeesList = [data]
+function promptIntern(employeesList) {
   return inquirer
     .prompt([...internQuestions])
     .then((internData) => {
       employeesList.push(internData)
+      employeesList[employeesList.length - 1].type = "Intern"
       return employeesList;
     })
     .then( employeesList => promptAddNewTeamMember(employeesList));
@@ -154,10 +154,13 @@ function promptAddNewTeamMember(employeesList) {
 /* initial prompt */
 init()
 .then((data) => {
+  let employeesList = []
+  employeesList.push(data)
+  employeesList[0].type = "Manager"
   if (data.teamMemberAdd === "Intern") {
-    promptIntern(data)
+    promptIntern(employeesList)
   } else if (data.teamMemberAdd === "Engineer") {
-    promptEngineer(data)
+    promptEngineer(employeesList)
   }
 })
 
