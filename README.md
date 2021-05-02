@@ -37,6 +37,9 @@ node index.js
 Npm Packages Jest and Inquirer
 
 ## Tests
+```shell
+npm run test
+``` 
 
 ## Preview
 
