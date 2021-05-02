@@ -4,7 +4,7 @@
 A Team Profile Generator using the command line
 
 ## Walkthrough Video
-[https://drive.google.com/file/d/1IIVBnRMz9MxBUo5xuXsD6SFYjOAAtVAq/view](https://drive.google.com/file/d/1IIVBnRMz9MxBUo5xuXsD6SFYjOAAtVAq/view)
+[https://drive.google.com/file/d/1VfONrvsD1jGhKS4Atd43wW__NKnmaDoo/view](https://drive.google.com/file/d/1VfONrvsD1jGhKS4Atd43wW__NKnmaDoo/view)
 
 ## Table of Contents
 * [Walkthrough Video](#Walkthrough-Video)
