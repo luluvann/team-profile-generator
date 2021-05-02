@@ -3,13 +3,15 @@
 ## Description 
 A Team Profile Generator using the command line
 
-## Table of Contents
+## Walkthrough Video
+[https://drive.google.com/file/d/1IIVBnRMz9MxBUo5xuXsD6SFYjOAAtVAq/view](https://drive.google.com/file/d/1IIVBnRMz9MxBUo5xuXsD6SFYjOAAtVAq/view)
 
+## Table of Contents
+* [Walkthrough Video](#Walkthrough-Video)
 * [Installation](#installation)
 * [Usage](#usage)
 * [Credits](#credits)
 * [Tests](#tests)
-* [Preview](#Preview)
 
 ## Installation
 1. Clone the repo in the folder of your choice
@@ -40,6 +42,3 @@ Npm Packages Jest and Inquirer
 ```shell
 npm run test
 ``` 
-
-## Preview
-
